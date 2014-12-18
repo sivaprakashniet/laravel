@@ -1,0 +1,1 @@
+<div id="copyright text-right" class="navbar navbar-inverse"><a class="navbar-brand">© Copyright 2013 <b>ASARERI TECHNOLOGY</b> </a></div>
