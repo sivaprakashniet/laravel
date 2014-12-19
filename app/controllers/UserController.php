@@ -10,7 +10,6 @@ class UserController extends BaseController {
 
 	public function showLogin()
 	{
-		// show the form
 		return View::make('users.login');
 	}
 	public function showSignup(){
@@ -26,8 +25,7 @@ class UserController extends BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			Session::flash('message', 'validation error!');
-			return Redirect::to('/auth')
+			return Redirect::to('auth/login')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		} else {
@@ -37,11 +35,11 @@ class UserController extends BaseController {
 			);
 
 			if (Auth::attempt($data)) {
-				Session::flash('message', 'Logged in Successfully!');
+				Session::flash('message', 'Logged in successfully!');
 				return Redirect::to('blogs');
 			} else {
-				Session::flash('message', 'crediantial error!');
-				return Redirect::to('/');
+				Session::flash('message', 'Crediantial not match !');
+				return Redirect::to('auth/login')->withInput(Input::except('password'));;
 
 			}
 
@@ -54,11 +52,11 @@ class UserController extends BaseController {
 			'name'=>'required',
 			'username'=>'required|min:6',
 			'email'=>'required|email|unique:users',
-			'password'=>'required|min:6',
+			'password'=>'required|min:6|confirmed',
+			'password_confirmation' =>'required|min:6'
 		);
 		$validation=Validator::make($data,$rules);
 		if ($validation->fails()) {
-			Session::flash('message', 'validation error!');
 			return Redirect::to('auth/signup')
 			->withInput(Input::except('password'))
 			->withErrors($validation);
@@ -84,6 +82,7 @@ class UserController extends BaseController {
 	}
 	public function userLogout(){
 		Auth::logout();
+		Session::flash('message', 'signout successfully!');
 		return Redirect::to('/');
 	}
 

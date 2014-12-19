@@ -10,7 +10,9 @@ class BlogController extends \BaseController {
 	public function index()
 	{
 		// get all Posts
-		$blogs = blog::all();
+		/*$blogs = blog::all();*/
+		//$blogs = blog::where('id', '>', 10)->paginate(5); // if using where condition on
+		$blogs = blog::paginate(5);
 		return View::make('blogs.index')
 			->with('blogs',$blogs);
 	}
@@ -41,7 +43,7 @@ class BlogController extends \BaseController {
         );
 
         $validator=Validator::make(Input::all(),$rules);
-        if ($validator->fails()) {
+         if ($validator->fails()) {
             return Redirect::to('blogs/create')
                 ->withErrors($validator);
         } else {
