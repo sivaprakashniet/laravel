@@ -41,7 +41,7 @@ class BlogController extends \BaseController {
         );
 
         $validator=Validator::make(Input::all(),$rules);
-         if ($validator->fails()) {
+        if ($validator->fails()) {
             return Redirect::to('blogs/create')
                 ->withErrors($validator);
         } else {
